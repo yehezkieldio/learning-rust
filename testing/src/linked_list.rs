@@ -1,3 +1,5 @@
+// TODO: Debug this later down the line to fix a stack overflow issue.
+
 use std::{cell::RefCell, rc::Rc};
 
 #[derive(Debug)]
@@ -57,8 +59,9 @@ where
     // Remove the first element from the list and return it
     pub fn pop(&mut self) -> Option<T> {
         self.head.take().map(|head| {
-            if let Some(next) = head.borrow_mut().next.take() {
-                self.head = Some(next);
+            let next = head.borrow_mut().next.take();
+            if let Some(next) = next {
+                self.head = Some(next.clone());
             } else {
                 self.tail.take();
             }

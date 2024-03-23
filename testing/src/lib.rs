@@ -25,7 +25,45 @@ mod tests {
     fn bench_list_append(b: &mut Bencher) {
         let mut list = List::new_empty();
         b.iter(|| {
-            list.append(10);
+            for i in 0..1000 {
+                list.append(i);
+            }
         });
+    }
+
+    #[test]
+    fn test_list_new_empty() {
+        let mut list: List<i32> = List::new_empty();
+        assert_eq!(list.length, 0);
+        assert_eq!(list.pop(), None);
+    }
+
+    #[test]
+    fn test_list_append() {
+        let mut list = List::new_empty();
+        list.append(1);
+        list.append(1);
+        list.append(1);
+        list.append(1);
+        list.append(1);
+        assert_eq!(list.length, 5);
+    }
+
+    #[test]
+    fn test_list_pop() {
+        let mut list = List::new_empty();
+        list.append(1);
+        list.append(1);
+        list.append(1);
+        list.append(1);
+        list.append(1);
+        assert_eq!(list.length, 5);
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.length, 0);
+        assert_eq!(list.pop(), None);
     }
 }
