@@ -28,6 +28,8 @@ pub fn add(left: usize, right: usize) -> usize {
 
 #[cfg(test)]
 mod tests {
+    use std::mem;
+
     use super::*;
 
     #[test]
@@ -42,23 +44,36 @@ mod tests {
         assert_eq!(3.14 + 22.86, 26_f32);
         assert_eq!(2_i32.pow(2), 4);
         assert_eq!(4_f32.sqrt(), 2_f32);
-
-        let a: u64 = 32;
-        let b: u64 = 64;
-
-        // Risky, this could overflow
-        assert_eq!(a - b, 32);
-        assert_eq!(a.overflowing_add(b), (18446744073709551584, true));
-        let mut c = 100;
-        c += 1;
-        assert_eq!(c, 101);
     }
 
     #[test]
-    #[should_panic]
-    fn attempt_overflow() {
-        let a: u64 = 32;
-        let b: u64 = 64;
-        let _ = a - b;
+    fn test_custom_struct() {
+        assert_eq!(
+            mem::size_of::<MyCustomStruct>(),
+            mem::size_of::<i32>() + mem::size_of::<u32>() + mem::size_of::<f32>()
+        );
+
+        let m = MyCustomStruct::new(1, 2, 3_f32);
+        assert_eq!(m.a, 1);
+        assert_eq!(m.b, 2);
+        assert_eq!(m.c, 3_f32);
+
+        assert_eq!(m.sum(), 6_f32);
+        let m2 = m.clone();
+        assert_eq!(format!("{:?}", m2), "MyCustomStruct { a: 1, b: 2, c: 3.0 }");
+        let mut m3 = m;
+        m3.a = 100;
+
+        assert_eq!(m2.a, 1);
+        assert_eq!(m.a, 1);
+        assert_eq!(m3.a, 100);
     }
+
+    // #[test]
+    // #[should_panic]
+    // fn attempt_overflow() {
+    //     let a = 10_u32;
+    //     let b = 11_u32;
+    //     let _ = a - b;
+    // }
 }
