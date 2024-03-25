@@ -64,4 +64,18 @@ mod tests {
         assert_eq!(a_iter.next(), Some(&142));
         assert_eq!(a_iter.next(), None);
     }
+
+    #[test]
+    fn option_pattern_matching() {
+        match Some(100) {
+            Some(v) => assert_eq!(v, 100),
+            None => assert!(false),
+        }
+
+        if let Some(v) = Some(42) {
+            assert_eq!(v, 42);
+        } else {
+            assert!(false);
+        }
+    }
 }
