@@ -44,4 +44,24 @@ mod tests {
             Err(_) => assert!(false),
         }
     }
+
+    #[test]
+    fn option_sequentials() {
+        let a = Some(42);
+        let b = Some(1532);
+
+        // and returns None if either of the Option is None, other it returns the second Option.
+        assert_eq!(a.and(b), Some(1532));
+        assert_eq!(a.and(Option::<i32>::None), None);
+        // or returns the first Option if it is Some, otherwise it returns the second Option.
+        assert_eq!(a.or(None), Some(42));
+        assert_eq!(a.or(b), Some(42));
+        assert_eq!(None.or(a), Some(42));
+
+        let new_a = a.and_then(|v| Some(v + 100)).filter(|&v| v != 42);
+        assert_eq!(new_a, Some(142));
+        let mut a_iter = new_a.iter();
+        assert_eq!(a_iter.next(), Some(&142));
+        assert_eq!(a_iter.next(), None);
+    }
 }
