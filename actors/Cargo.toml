@@ -1,0 +1,15 @@
+cargo-features = ["codegen-backend"]
+
+[package]
+name = "actors"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix = "0.13.3"
+actix-rt = "2.9.0"
+rand = "0.8.5"
+tokio = { version = "1.37.0", features = ["macros", "rt-multi-thread"] }
+
+[profile.dev]
+codegen-backend = "cranelift"
