@@ -11,11 +11,60 @@ struct Node {
     prev: Option<Link>,
 }
 
+impl Node {
+    fn new(value: String) -> Rc<RefCell<Node>> {
+        Rc::new(RefCell::new(Node {
+            value,
+            next: None,
+            prev: None,
+        }))
+    }
+}
+
 #[derive(Clone)]
 pub struct BetterTransactionLog {
     head: Option<Link>,
     tail: Option<Link>,
     length: u64,
+}
+
+impl BetterTransactionLog {
+    pub fn new() -> BetterTransactionLog {
+        BetterTransactionLog {
+            head: None,
+            tail: None,
+            length: 0,
+        }
+    }
+
+    pub fn append(&mut self, value: String) {
+        let new = Node::new(value);
+
+        match self.tail.take() {
+            Some(old) => {
+                old.borrow_mut().next = Some(new.clone());
+                new.borrow_mut().prev = Some(old);
+            }
+            None => {
+                self.head = Some(new.clone());
+            }
+        }
+
+        self.length += 1;
+        self.tail = Some(new);
+    }
+
+    pub fn iter(&self) -> ListIterator {
+        ListIterator::new(self.head.clone())
+    }
+
+    pub fn iter_back(&self) -> ListIterator {
+        ListIterator::new(self.tail.clone())
+    }
+
+    pub fn len(&self) -> u64 {
+        self.length
+    }
 }
 
 // Moves forward through the log
@@ -84,5 +133,20 @@ impl DoubleEndedIterator for ListIterator {
 }
 
 fn main() {
-    println!("Hello, world!");
+    let logs = vec!["hello", "world", "foo", "bar"];
+    let mut log = BetterTransactionLog::new();
+
+    for entry in logs {
+        log.append(entry.to_string());
+    }
+
+    for entry in log.iter() {
+        println!("{}", entry);
+    }
+
+    for entry in log.iter_back() {
+        println!("{}", entry);
+    }
+
+    println!("Length: {}", log.len());
 }
