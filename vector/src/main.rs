@@ -74,4 +74,74 @@ fn main() {
         .collect::<Vec<_>>();
 
     println!("{:?}", j_names);
+
+    // remove consecutive duplicates
+    let mut nums = vec![2, 2, 3, 3, 3, 4, 4, 4, 4, 1];
+    nums.dedup();
+    println!("{:?}", nums);
+
+    // sort a vector
+    nums.sort();
+    println!("{:?}", nums);
+
+    // sort in reverse
+    nums.reverse();
+    println!("{:?}", nums);
+
+    // or
+    nums.sort_by(|a, b| b.cmp(a));
+    // this is done by comparing two elements at a time
+    // if the closure returns Ordering::Less, it means a should come before b
+    println!("{:?}", nums);
+
+    // create a consumer iterator
+    // a consumer iterator consumes the iterator and returns a value
+    let mut alphabet = vec!['a', 'b', 'c', 'd', 'e'];
+    println!("the firswt two letters");
+
+    // drain() returns a draining iterator
+    // it removes the elements from the vector and returns them
+    for letter in alphabet.drain(..2) {
+        println!("{:?}", letter);
+    }
+
+    // check the vector after draining
+    println!("{:?}", alphabet);
+
+    // split a vector
+    let mut alphabet = vec!['a', 'b', 'c', 'd', 'e', 'f'];
+    let alphabet2 = alphabet.split_off(3);
+    // we split the vector at index 3, so the first vector will have the first 3 elements
+
+    println!("{:?}", alphabet);
+    println!("{:?}", alphabet2);
+
+    // check if empty
+    let mut nums = vec![1, 2, 3];
+    println!("{:?}", nums.is_empty());
+
+    nums.clear();
+    println!("{:?}", nums.is_empty());
+
+    // split a vector and combine it back
+    let mut alphabet = vec!['a', 'b', 'c', 'd', 'e', 'f'];
+    let alphabet2 = alphabet.split_off(3);
+
+    let mut alphabet = alphabet.into_iter();
+    let mut alphabet2 = alphabet2.into_iter();
+
+    let mut alphabet3 = Vec::new();
+
+    loop {
+        match (alphabet.next(), alphabet2.next()) {
+            (Some(a), Some(b)) => {
+                alphabet3.push(a);
+                alphabet3.push(b);
+            }
+            (None, None) => break,
+            (Some(a), None) => alphabet3.push(a),
+            (None, Some(b)) => alphabet3.push(b),
+        }
+    }
+    println!("{:?}", alphabet3);
 }
