@@ -3,13 +3,14 @@ use anyhow::Ok;
 use rand::Rng;
 
 // The GCM in AES256Gcm stands for Galois/Counter Mode, which is a mode of operation for symmetric key cryptographic block ciphers.
+pub const KEY_SIZE: usize = 32;
 
 pub struct Encryptor {
     cipher: Aes256Gcm,
 }
 
 impl Encryptor {
-    pub fn new(key: &[u8; 32]) -> Self {
+    pub fn new(key: &[u8; KEY_SIZE]) -> Self {
         let key = Key::<Aes256Gcm>::from_slice(key);
         let cipher = Aes256Gcm::new(key);
 
