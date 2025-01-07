@@ -1,4 +1,4 @@
-use ndarray::{Array, Array3, ShapeBuilder, array};
+use ndarray::{Array, Array3, ShapeBuilder, array, rcarr1};
 
 fn initial_placeholders() {
     // create a 1x4 array of zeros
@@ -59,8 +59,17 @@ fn multidimensional_arrays() {
     println!("{:?}", array_3d.unwrap());
 }
 
+fn reshaping_arrays() {
+    // another way to create a 1D array
+    let array_d1 = rcarr1(&[1., 2., 3., 4.]);
+    let array_d2 = array_d1.to_shape((2, 2));
+    println!("{:?}", array_d2);
+}
+
 fn main() {
     initial_placeholders();
     println!();
     multidimensional_arrays();
+    println!();
+    reshaping_arrays();
 }
