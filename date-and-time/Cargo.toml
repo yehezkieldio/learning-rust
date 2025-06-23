@@ -1,0 +1,13 @@
+[package]
+name = "date-and-time"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4.41", features = ["serde"] }
+serde = "1.0.219"
+
+[profile.dev]
+opt-level = 0
+codegen-units = 4
+debug = 0
