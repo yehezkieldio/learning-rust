@@ -75,5 +75,45 @@ fn main() {
     // This is useful for self-referential structs or when you need to ensure that the
     println!("Pinned value: {}", pinned_struct.get_value());
 
+    // PhantomData is a zero-sized type that allows you to indicate that a type has a certain lifetime or ownership
+    // without actually storing any data of that type. It is often used in conjunction with lifetimes to indicate that a type is associated with a certain lifetime or ownership without actually storing any data of the type.
+    // This is useful for ensuring that the type is properly associated with a lifetime or ownership without actually storing any data of that type.
+    use std::marker::PhantomData;
+    #[derive(Debug)]
+    struct MyPhantom<T> {
+        _marker: PhantomData<T>,
+    }
+    impl<T> MyPhantom<T> {
+        fn new() -> Self {
+            MyPhantom {
+                _marker: PhantomData,
+            }
+        }
+    }
+    let phantom = MyPhantom::<i32>::new();
+    // The `phantom` variable is a zero-sized type that indicates that it is associated
+    // with the `i32` type without actually storing any data of that type.
+    println!("Created a phantom type: {:?}", phantom);
+
+    // Cow (Clone on Write) is a way to optimize memory usage by allowing you to use either a borrowed or owned version of a string.
+    // It is similar to C++'s std::string_view or std::string,
+    // but with a focus on optimizing memory usage by allowing you to use either a borrowed or owned version of a string.
+    // This is useful for optimizing memory usage when you need to work with strings that may be either borrowed or owned,
+    // without having to clone the string unnecessarily.
+    use std::borrow::Cow;
+    fn use_cow(input: &str) -> Cow<str> {
+        if input.is_empty() {
+            // If the input is empty, return a borrowed default string
+            Cow::Borrowed("default")
+        } else {
+            // If the input is not empty, return an owned version of the string
+            Cow::Owned(input.to_string())
+        }
+    }
+    let cow1 = use_cow("Hello, Rust!");
+    let cow2 = use_cow("");
+    println!("Cow1: {}", cow1);
+    println!("Cow2: {}", cow2);
+
     println!("End of main function");
 }
