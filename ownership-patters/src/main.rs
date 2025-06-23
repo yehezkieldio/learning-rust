@@ -115,5 +115,15 @@ fn main() {
     println!("Cow1: {}", cow1);
     println!("Cow2: {}", cow2);
 
+    // Higher-ranked trait bounds (HRTBs) allow you to write functions that can accept any type that implements a certain trait,
+    // regardless of the lifetime of the references involved. This is useful for writing generic functions that
+    // can work with any type that implements a certain trait, without having to specify the lifetime
+    // of the references involved.
+    fn print_with_trait<T: std::fmt::Display>(item: T) {
+        println!("Item: {}", item);
+    }
+    print_with_trait(42);
+    print_with_trait("Hello, Rust!");
+
     println!("End of main function");
 }
