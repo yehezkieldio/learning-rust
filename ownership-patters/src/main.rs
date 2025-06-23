@@ -43,5 +43,37 @@ fn main() {
         *resource = Resource; // This will not cause a double drop, as Mutex allows mutable access
     }
 
+    // C++ has lifetimes, but they're implicit. Rust has explicit lifetimes, which are a way to track how long references to data are valid.
+    // This helps prevent dangling references and ensures memory safety.
+
+    // Understand lifetime variance (covariant, contravariant, invariant) in Rust.
+    // Covariant: If `A` is a subtype of `B`, then `&A` is a subtype of `&B`.
+    // Contravariant: If `A` is a subtype of `B`, then `fn(A) -> C` is a subtype of `fn(B) -> C`.
+    // Invariant: If `A` is a subtype of `B`, then `&mut A` is not a subtype of `&mut B`.
+    // This is a fundamental concept in Rust's type system and helps ensure that references are used safely.
+
+    // Pin is a way to ensure that a value is not moved in memory, which is useful for self-referential structs.
+    // It is similar to C++'s std::unique_ptr or std::shared_ptr, but with a focus on ensuring that the value is not moved after it has been pinned.
+    // Self-referential structs are structs that contain references to themselves, which can lead to issues if the struct is moved in memory.
+    use std::pin::Pin;
+    struct MyStruct {
+        value: i32,
+    }
+    impl MyStruct {
+        fn new(value: i32) -> Self {
+            MyStruct { value }
+        }
+
+        fn get_value(self: Pin<&Self>) -> i32 {
+            self.value
+        }
+    }
+    let my_struct = MyStruct::new(42);
+    let pinned_struct = Pin::new(&my_struct);
+    // The compiler ensures that `pinned_struct` cannot be moved in memory,
+    // which allows us to safely call methods that rely on the struct not being moved.
+    // This is useful for self-referential structs or when you need to ensure that the
+    println!("Pinned value: {}", pinned_struct.get_value());
+
     println!("End of main function");
 }
