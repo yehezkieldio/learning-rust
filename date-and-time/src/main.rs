@@ -19,6 +19,7 @@ fn main() {
     println!("Naive date time with fixed offset: {}", naive_date_time);
 
     let timestring = "2024-04-30 03:24:26.000";
-    let naive_date_time = NaiveDateTime::parse_from_str(&timestring, "%Y-%m-%d %H:%M:%S%.3f")?;
+    let naive_date_time = NaiveDateTime::parse_from_str(&timestring, "%Y-%m-%d %H:%M:%S%.3f")
+        .expect("Failed to parse naive date time without offset");
     println!("naive_date_time: {}", naive_date_time);
 }
