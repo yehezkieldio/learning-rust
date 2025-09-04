@@ -324,3 +324,45 @@ fn main() {
         Err(e) => println!("Verification error:     {}", e),
     }
 }
+
+// use std::ffi::{CString, CStr};
+// use std::os::raw::{c_char, c_int};
+// use uuid::Uuid;
+
+// #[no_mangle]
+// pub extern "C" fn generate_api_key_c(
+//     org_id_str: *const c_char,
+//     name_str: *const c_char,
+// ) -> *mut c_char {
+//     let org_id_cstr = unsafe { CStr::from_ptr(org_id_str) };
+//     let name_cstr = unsafe { CStr::from_ptr(name_str) };
+
+//     let org_id = Uuid::parse_str(org_id_cstr.to_str().unwrap()).unwrap();
+//     let name = name_cstr.to_str().unwrap().to_string();
+
+//     let input = api::CreateApiKeyInput {
+//         organization_id: org_id,
+//         name,
+//         expires_at: None,
+//         config: None,
+//     };
+
+//     let result = api::generate_api_key(input);
+//     CString::new(result.token).unwrap().into_raw()
+// }
+
+// #[no_mangle]
+// pub extern "C" fn verify_api_key_c(
+//     api_key_json: *const c_char,
+//     token_str: *const c_char,
+// ) -> c_int {
+//     let api_key_json = unsafe { CStr::from_ptr(api_key_json) }.to_str().unwrap();
+//     let token = unsafe { CStr::from_ptr(token_str) }.to_str().unwrap();
+
+//     let api_key: api::ApiKey = serde_json::from_str(api_key_json).unwrap();
+//     if api::verify_api_key(&api_key, token) {
+//         1
+//     } else {
+//         0
+//     }
+// }
