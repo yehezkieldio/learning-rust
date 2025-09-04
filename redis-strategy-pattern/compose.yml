@@ -1,0 +1,19 @@
+name: learning-rust
+services:
+  dragonfly:
+    image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+    container_name: learning-rust-redis-1-dragonfly
+    ulimits:
+      memlock: -1
+    ports:
+      - "6379:6379"
+    volumes:
+      - learning-rust-1-dragonfly_data:/data
+    networks:
+      - learning-rust-network
+volumes:
+  learning-rust-1-dragonfly_data:
+    name: learning-rust-1-dragonfly_data
+networks:
+  learning-rust-network:
+    driver: bridge
