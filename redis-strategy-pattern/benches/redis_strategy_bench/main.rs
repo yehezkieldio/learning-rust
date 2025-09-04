@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use criterion::{criterion_group, criterion_main, Criterion};
 use redis::Client;
 use redis_strategy_pattern::cache_context::CacheContext;
@@ -58,5 +60,9 @@ fn benchmark_cache_strategies(c: &mut Criterion) {
     }
 }
 
-criterion_group!(benches, benchmark_cache_strategies);
+criterion_group!{
+  name = benches;
+  config = Criterion::default().measurement_time(Duration::from_secs(100));
+  targets = benchmark_cache_strategies
+}
 criterion_main!(benches);
