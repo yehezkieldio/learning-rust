@@ -10,12 +10,8 @@ pub struct LazyInvalidationCache {
 }
 
 impl LazyInvalidationCache {
-    pub fn new(url: &str) -> Self {
-        let client = Client::open(url).expect("Invalid Redis URL");
-        Self {
-            redis: client,
-            invalid_keys: Mutex::new(HashMap::new())
-        }
+    pub fn new(client: Client) -> Self {
+        Self { redis: client, invalid_keys: Mutex::new(HashMap::new()) }
     }
 }
 

@@ -7,8 +7,7 @@ pub struct ReadThroughCache {
 }
 
 impl ReadThroughCache {
-    pub fn new(url: &str) -> Self {
-        let client = Client::open(url).expect("Invalid Redis URL");
+    pub fn new(client: Client) -> Self {
         Self { redis: client }
     }
 }
