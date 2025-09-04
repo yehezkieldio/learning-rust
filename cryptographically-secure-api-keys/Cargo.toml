@@ -1,0 +1,14 @@
+[package]
+name = "cryptographically-secure-api-keys"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+base32 = "0.5.1"
+blake3 = "1.8.2"
+chrono = { version = "0.4.41", features = ["serde"] }
+rand = "0.9.2"
+serde = { version = "1.0.219", features = ["derive"] }
+subtle = "2.6.1"
+uuid = { version = "1.18.1", features = ["serde", "v7"] }
+zeroize = "1.8.1"
