@@ -13,7 +13,11 @@ impl CacheContext {
         self.strategy.get(key)
     }
 
-    pub fn set(&self, key: &str, value: String) {
-        self.strategy.set(key, value);
+    pub fn set(&self, key: &str, value: impl Into<String>) {
+        self.strategy.set(key, value.into());
+    }
+
+    pub fn delete(&self, key: &str) {
+        self.strategy.delete(key);
     }
 }

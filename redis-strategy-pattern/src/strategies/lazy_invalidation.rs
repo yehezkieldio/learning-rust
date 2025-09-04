@@ -32,5 +32,11 @@ impl CacheStrategy for LazyInvalidationCache {
         let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut con).expect("Failed to set value in Redis");
         self.invalid_keys.lock().unwrap().insert(key.to_string(), false);
     }
+
+    fn delete(&self, key: &str) {
+        self.invalid_keys.lock().unwrap().insert(key.to_string(), true);
+        let mut con = self.redis.get_connection().expect("Failed to connect to Redis");
+        let _: () = redis::cmd("DEL").arg(key).query(&mut con).expect("Failed to delete key in Redis");
+    }
 }
 

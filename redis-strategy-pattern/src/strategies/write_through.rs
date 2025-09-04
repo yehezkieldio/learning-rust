@@ -23,5 +23,9 @@ impl CacheStrategy for WriteThroughCache {
         let mut con = self.redis.get_connection().expect("Failed to connect to Redis");
         let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut con).expect("Failed to set value in Redis");
     }
-}
 
+    fn delete(&self, key: &str) {
+        let mut con = self.redis.get_connection().expect("Failed to connect to Redis");
+        let _: () = redis::cmd("DEL").arg(key).query(&mut con).expect("Failed to delete key in Redis");
+    }
+}
