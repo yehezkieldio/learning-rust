@@ -1,0 +1,27 @@
+[package]
+name = "uuidv47"
+version = "0.1.0"
+edition = "2021"
+description = "UUIDv7-in / UUIDv4-out with SipHash-masked timestamps"
+license = "MIT"
+keywords = ["uuid", "uuidv7", "uuidv4", "siphash", "database"]
+categories = ["data-structures", "encoding", "cryptography"]
+
+[dependencies]
+
+[dev-dependencies]
+hex = "0.4"
+
+[features]
+default = []
+demo = []
+
+[[bin]]
+name = "uuidv47_demo"
+path = "src/main.rs"
+required-features = ["demo"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
